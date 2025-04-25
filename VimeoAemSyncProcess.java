@@ -72,15 +72,15 @@ public class VimeoAemSyncProcess implements VimeoAemSyncProcessService {
 				String baseDamPath = AEM_DAM_PATH;
 				pathMap = new HashMap<>();
 				String projectUrl = PROJECT_API + url;
-				String newBasePath = createBaseFolderInAEM(projectUrl, baseDamPath);
-				processVimeoDataRecursively(projectUrl + "/items", extractVimeoId(projectUrl), newBasePath);
+				String newBasePath = createBaseFolderInAem(projectUrl, baseDamPath);
+				processVimeoData(projectUrl + "/items", extractVimeoId(projectUrl), newBasePath);
 			}
 		} catch (Exception e) {
 			handleException("Error in fetchVimeoVideos: " + e.getMessage(), e);
 		}
 	}
  
-	private String createBaseFolderInAEM(String apiUrl, String baseDamPath) {
+	private String createBaseFolderInAem(String apiUrl, String baseDamPath) {
 		String folderPath = null;
 		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 			HttpGet getRequest = createHttpGetRequest(apiUrl);
@@ -125,19 +125,19 @@ public class VimeoAemSyncProcess implements VimeoAemSyncProcessService {
 				}
 			}
 		} catch (Exception e) {
-			handleException("Error in createBaseFolderInAEM: " + e.getMessage(), e);
+			handleException("Error in createBaseFolderInAem: " + e.getMessage(), e);
 		}
 		return folderPath;
 	}
 	
-	private void processVimeoDataRecursively(String apiUrl, String folderId, String parentFolderPath) {
+	private void processVimeoData(String apiUrl, String folderId, String parentFolderPath) {
 		try (CloseableHttpClient httpClient = HttpClients.custom().build()) {
 			HttpGet get = createHttpGetRequest(apiUrl);
 			try (CloseableHttpResponse response = httpClient.execute(get)) {
 				handleResponse(response, folderId, parentFolderPath);
 			}
 		} catch (Exception e) {
-			handleException("Error in processVimeoDataRecursively: " + e.getMessage(), e);
+			handleException("Error in processVimeoData: " + e.getMessage(), e);
 		}
 	}
  
@@ -182,14 +182,14 @@ public class VimeoAemSyncProcess implements VimeoAemSyncProcessService {
  
 	private void processFolder(JSONObject dataObject, String parentFolderPath) {
 		try {
-			String folderPath = createFolderInAEM(dataObject, parentFolderPath);
+			String folderPath = createFolderInAem(dataObject, parentFolderPath);
  
 			JSONObject folderJson = dataObject.getJSONObject(FOLDER);
 			String folderUri = folderJson.optString("uri", null);
 			if (folderUri != null) {
 				String newFolderId = extractVimeoId(folderUri);
 				pathMap.put(newFolderId, folderPath);
-				processVimeoDataRecursively(BASE_API + folderUri + "/items", newFolderId,
+				processVimeoData(BASE_API + folderUri + "/items", newFolderId,
 						folderPath);
 			}
 		} catch (JSONException e) {
@@ -203,13 +203,13 @@ public class VimeoAemSyncProcess implements VimeoAemSyncProcessService {
 			JSONObject pagingObject = jsonObject.getJSONObject("paging");
 			String nextPageUrl = pagingObject.optString("next", null);
 			if (nextPageUrl != null) {
-				processVimeoDataRecursively(BASE_API + nextPageUrl, folderId,
+				processVimeoData(BASE_API + nextPageUrl, folderId,
 						parentFolderPath);
 			}
 		}
 	}
  
-	private String createFolderInAEM(JSONObject folderData, String parentFolderPath) {
+	private String createFolderInAem(JSONObject folderData, String parentFolderPath) {
 		try (ResourceResolver resourceResolver = JCRUtils.getResourceResolverFromFactory(resolverFactory)) {
 			JSONObject folderJson = folderData.getJSONObject(FOLDER);
 			String folderName = folderJson.optString("name", DEFAULT_VALUE);
