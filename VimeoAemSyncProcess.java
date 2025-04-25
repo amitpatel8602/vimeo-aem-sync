@@ -21,11 +21,9 @@ import org.apache.sling.api.resource.ModifiableValueMap;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.apache.sling.settings.SlingSettingsService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
@@ -59,13 +57,8 @@ public class VimeoAemSyncProcess implements VimeoAemSyncProcessService {
 	private static final String VIMEO_TOKEN = "f234234pa34g23423454223457689";
  
 	@Reference
-	private ConfigurationAdmin configAdmin;
- 
-	@Reference
 	private ResourceResolverFactory resolverFactory;
- 
-	@Reference
-	private SlingSettingsService slingSettingService;
+
  
 	private static final Logger LOGGER = LoggerFactory.getLogger(VimeoAemSyncProcess.class);
 	
