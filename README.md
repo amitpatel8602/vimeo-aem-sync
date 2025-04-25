@@ -23,6 +23,7 @@ The service (`VimeoAemSyncProcess`) performs the following actions:
 ```java
 @Component(immediate = true, service = VimeoAemSyncProcessService.class)
 ```
+---
 
 ###🔑 Dependencies
 -ResourceResolverFactory: To obtain service-level access to the AEM repository.
