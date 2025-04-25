@@ -22,3 +22,58 @@ The service (`VimeoAemSyncProcess`) performs the following actions:
 
 ```java
 @Component(immediate = true, service = VimeoAemSyncProcessService.class)
+```
+
+###🔑 Dependencies
+-ResourceResolverFactory: To obtain service-level access to the AEM repository.
+
+-AssetManager: To create and manage assets within the DAM.
+
+-HttpClients: For making RESTful API calls to Vimeo.
+
+-org.json: To parse Vimeo API responses.
+
+
+ ##Method Breakdown
+###✅ fetchVimeoVideos()
+-Entry point of the service.
+
+-Iterates through a list of Vimeo project IDs.
+
+-Calls Vimeo API to retrieve folders and videos.
+
+-Triggers folder and asset creation inside AEM DAM.
+
+###📁 createBaseFolderInAEM()
+-Creates a top-level folder in the DAM using the Vimeo project ID.
+
+-Ensures no duplication of existing folders.
+
+###🔁 processVimeoDataRecursively()
+-Recursively traverses each folder or video within a Vimeo project.
+
+-Handles nested folders and paginated API responses.
+
+###📂 createFolderInAEM()
+-Creates subfolders inside the project folder in the DAM.
+
+-Updates folder metadata if already present.
+
+###🎥 createAssetInDam()
+-Adds video metadata as a .mp4 placeholder asset in AEM.
+
+-Checks if asset exists, then updates only if the Vimeo modified_time is newer.
+
+-Adds thumbnail renditions for new assets.
+
+###🧠 updateAssetMetadata() and createNewAsset()
+-Updates existing asset metadata with Vimeo properties.
+
+-Creates new assets if not present.
+
+-Handles adding/updating thumbnail renditions.
+
+###🖼️ setImageRendition()
+-Downloads the thumbnail image from Vimeo.
+
+-Adds it as a rendition to the respective asset in AEM DAM.
