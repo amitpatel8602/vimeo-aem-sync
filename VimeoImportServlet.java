@@ -164,7 +164,7 @@ public class VimeoImportServlet extends SlingSafeMethodsServlet {
     }
  
     private boolean isValidToken(String token) {
-        String validToken = VimeoVideoImportScheduler.getVimeoToken();
+        String validToken = "f234234pa34g23423454223457689";
         return validToken.equals(token);
     }
  
