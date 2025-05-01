@@ -82,4 +82,4 @@ The service (`VimeoAemSyncProcess`) performs the following actions:
 
 ## Servlet - which calls base method of service.
 
-![image](https://github.com/user-attachments/assets/7c34b975-f4d1-493c-8dc9-a8d28142a414)
+
