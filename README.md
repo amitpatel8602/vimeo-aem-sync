@@ -78,3 +78,8 @@ The service (`VimeoAemSyncProcess`) performs the following actions:
 -Downloads the thumbnail image from Vimeo.
 
 -Adds it as a rendition to the respective asset in AEM DAM.
+
+
+## Servlet - which calls base method of service.
+
+![image](https://github.com/user-attachments/assets/7c34b975-f4d1-493c-8dc9-a8d28142a414)
